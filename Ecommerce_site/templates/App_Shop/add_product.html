@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block body_block %}
+
+{% if user.is_authenticated and user.account_type == "Seller" %}
+    <center>
+        <h3 style="color:orange">Add Product</a></h3>
+    </center>
+
+    <br>
+
+    <form method='post' enctype='multipart/form-data'>
+        
+        {{ form|crispy }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-warning btn-sm">Add Product</button>
+    </form>
+<br><br>
+
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html'%}
+{% block body_block %}
+    
+    <div class="conatiner my-5">
+        <div class="card">
+            <div class="row">
+                {% comment %}
+                    <aside> measns pashapashi dekhay
+                    <article> view change kore
+                {% endcomment %}
+                <aside class="col-sm-5 border-right">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                            <div>
+                                <a href="#">
+                                    <img src="/media/{{object.mainimage}}" style="width: 450px">
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </aside>
+                <aside class="col-sm-7">
+                    <article class="card-body p-5">
+                        <h3 class="title mp-3">{{object.name}}</h3>
+                        <p style="color:blue"><strong>Seller: {{object.seller.profile.full_name}}</strong></p>
+                        <p class="price-detail-wrap">
+                            <span class="price h3 text-warning">
+                                <span class="currency">BDT &#2547;</span>
+                                <span class="num">{{object.price}}</span>
+                            </span>
+                        </p>
+
+                        {% comment %}
+                            dl = description list
+                            dt= description truncatechars_html
+                            dd = description description
+                        {% endcomment %}
+
+                        <dl class="item-property">
+                            <dt>Description</dt>
+                            <dd>
+                                <p>{{object.detail_text|linebreaks}}</p>
+                            </dd>
+                        </dl>
+                        <a href="{% url 'App_Order:add' pk=object.pk %}" class="btn btn-lg btn-outline-primary text-uppercase">
+                            <i class="fas fa-shopping-cart"></i>Add to cart
+                        </a>
+                    </article>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

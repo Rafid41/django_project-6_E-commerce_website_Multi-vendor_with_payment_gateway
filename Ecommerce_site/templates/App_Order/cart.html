@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block body_block %}
+
+
+
+<div class="container my-5">
+    <div class="my-5">
+        <h2>Your Cart</h2>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col" width='15%'>#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col" align="right">Price</th>
+                <th scope="col">Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cart in carts %}
+                <tr>
+                    {% comment %}
+                        # foorloop.counter for loop er current iteration number  print kore, soja kothay i=0,1,2,3...
+                        # cart.item.name => item ->App_order er models.py er field,  name-> item  ForeignKey Product er(App_Shop.models), 'name' oi Product class er field 
+                        # cart.quantity=> 'quantity' holo App_order er models.py er field
+                    {% endcomment %}
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ cart.item.name }}</td>
+                    <td>
+                        {% comment %} +/- sign diye cart item barano/komano {% endcomment %}
+                        <a class="mr-2" href="{% url 'App_Order:decrease' pk=cart.item.pk %}">
+                            <span class="badge badge-light">
+                                <i class="fas fa-minus"></i>
+                            </span>
+                        </a>
+
+                        {{cart.quantity}}
+
+                        <a class="mr-2" href="{% url 'App_Order:increase' pk=cart.item.pk %}">
+                            <span class="badge badge-light">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </a>
+
+                    </td>
+                    {% comment %} cart.get_total and order.get_totals holo models.py er fn gulo(App_Order) {% endcomment %}
+                    <td align="right">&#2547; {{cart.get_total}}</td>
+                    <td><a href="{% url 'App_Order:remove' pk=cart.item.pk %}" class="btn btn-danger btn-sm">Remove From Cart</a></td>
+                </tr>
+                {% endfor %}
+               
+                <tr>
+                    <th scope="row"></th>
+                    <td colspan="2">Total</td>     <!-- colspan diye 3 column jayga dokhol korse-->
+                    <td align="right">&#2547; {{order.get_totals| floatformat:2 }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row"></th>
+                    <td colspan="4" class="text-right">
+                        <a href="{% url 'App_Shop:home' %}" class="btn btn-warning mr-4">Continue Shopping</a>
+                        <a href="{% url 'App_Payment:checkout' %}" class="btn btn-success mr-4">Proceed To Checkout</a>
+                    </td>
+                </tr>         
+        </tbody>
+    </table>
+</div>
+
+
+
+
+{% endblock %}
